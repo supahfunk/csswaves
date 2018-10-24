@@ -1,0 +1,119 @@
+/*--------------------
+Body
+--------------------*/
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  --h: 100px;
+  --a: 35px;
+  --b: 35px;
+}
+
+$hue: 240;
+$rad: 3.2;
+
+body {
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
+  perspective: 2000px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fafafa;
+  padding-top: var(--b);
+}
+
+
+/*--------------------
+Scene
+--------------------*/
+.scene {
+  min-width: calc(var(--a) * 10);
+  min-height: calc(var(--b) * 10);
+  width: calc(var(--a) * 10);
+  height: calc(var(--b) * 10);
+  transform: rotateX(60deg) rotateZ(30deg);
+  transform-style: preserve-3d;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+
+/*--------------------
+Cube
+--------------------*/
+.cube {
+  width: var(--a);
+  height: var(--b);
+
+  .face {
+    position: absolute;
+    width: var(--a);
+    height: var(--h);
+    transform-origin: 0 0;
+  }
+
+  .bottom {
+    height: var(--b);
+  }
+
+  .top {
+    height: var(--b);
+    transform: translateZ(var(--h));
+  }
+
+  .front {
+    transform: rotateX(-90deg) translateY(calc(var(--h) * -1)) translateZ(var(--b));
+  }
+
+  .back {
+    transform: rotateX(-90deg) translateY(calc(var(--h) * -1));
+  }
+
+  .right {
+    transform: translateY(var(--b)) translateZ(var(--h)) translateX(var(--a)) rotateZ(-90deg) rotateX(-90deg);
+    width: var(--b);
+  }
+
+  .left {
+    transform: translateY(var(--b)) translateZ(var(--h)) rotateZ(-90deg) rotateX(-90deg);
+    width: var(--b);
+  }
+}
+
+
+/*--------------------
+Cube Small
+--------------------*/
+.cube__small {
+  @for $i from 1 to 101 {
+    &:nth-child(#{$i}) {
+      $r: floor(($i - 1) / 10);
+      $c: ($i - 1 - $r * 10) + $r;
+
+      .face {
+        background: hsla($hue - $c * $rad, 60%, 60%, 1);
+      }
+
+      .top {
+        background: hsla($hue - $c * $rad, 65%, 55%, 1);
+      }
+
+      .front {
+        background: hsla($hue - $c * $rad, 70%, 48%, 1);
+      }
+
+      .right {
+        background: hsla($hue - $c * $rad, 75%, 44%, 1);
+      }
+    }
+  }
+}
